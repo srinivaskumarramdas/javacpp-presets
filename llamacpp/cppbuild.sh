@@ -1,4 +1,5 @@
-#  mvn clean install --projects .,llamacpp && mvn clean install -f platform --projects ../llamacpp/platform -Djavacpp.platform.host
+#  mvn clean install --projects ..llamacpp
+#  mvn clean install -f platform --projects ../llamacpp/platform -Djavacpp.platform.host
 
 #!/bin/bash
 # This file is meant to be included by the parent cppbuild.sh script
