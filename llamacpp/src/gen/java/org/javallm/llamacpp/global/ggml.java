@@ -189,15 +189,6 @@ public class ggml extends org.javallm.llamacpp.presets.ggml {
 // #    define GGML_API
 // #endif
 
-// TODO: support for clang
-// #ifdef __GNUC__
-// #    define GGML_DEPRECATED(func, hint) func __attribute__((deprecated(hint)))
-// #elif defined(_MSC_VER)
-// #    define GGML_DEPRECATED(func, hint) __declspec(deprecated(hint)) func
-// #else
-// #    define GGML_DEPRECATED(func, hint) func
-// #endif
-
 // #include <stdint.h>
 // #include <stddef.h>
 // #include <stdbool.h>
@@ -214,7 +205,6 @@ public static final int GGML_MAX_PARAMS =        256;
 public static final int GGML_MAX_CONTEXTS =      64;
 public static final int GGML_MAX_SRC =           6;
 public static final int GGML_MAX_NAME =          48;
-public static final int GGML_MAX_OP_PARAMS =     32;
 public static final int GGML_DEFAULT_N_THREADS = 4;
 
 
@@ -223,7 +213,6 @@ public static final int GGML_EXIT_ABORTED = 1;
 
 // #define GGML_UNUSED(x) (void)(x)
 
-// #define GGML_PAD(x, n) (((x) + (n) - 1) & ~((n) - 1))
 
 // #define GGML_ASSERT(x)
 //     do {
@@ -347,80 +336,63 @@ public static final int GGML_EXIT_ABORTED = 1;
         GGML_OP_ARGMAX = 14,
         GGML_OP_REPEAT = 15,
         GGML_OP_REPEAT_BACK = 16,
-        GGML_OP_SILU_BACK = 17,
-        GGML_OP_NORM = 18, // normalize
-        GGML_OP_RMS_NORM = 19,
-        GGML_OP_RMS_NORM_BACK = 20,
+        GGML_OP_ABS = 17,
+        GGML_OP_SGN = 18,
+        GGML_OP_NEG = 19,
+        GGML_OP_STEP = 20,
+        GGML_OP_TANH = 21,
+        GGML_OP_ELU = 22,
+        GGML_OP_RELU = 23,
+        GGML_OP_GELU = 24,
+        GGML_OP_GELU_QUICK = 25,
+        GGML_OP_SILU = 26,
+        GGML_OP_SILU_BACK = 27,
+        GGML_OP_NORM = 28, // normalize
+        GGML_OP_RMS_NORM = 29,
+        GGML_OP_RMS_NORM_BACK = 30,
 
-        GGML_OP_MUL_MAT = 21,
-        GGML_OP_OUT_PROD = 22,
+        GGML_OP_MUL_MAT = 31,
+        GGML_OP_OUT_PROD = 32,
 
-        GGML_OP_SCALE = 23,
-        GGML_OP_SET = 24,
-        GGML_OP_CPY = 25,
-        GGML_OP_CONT = 26,
-        GGML_OP_RESHAPE = 27,
-        GGML_OP_VIEW = 28,
-        GGML_OP_PERMUTE = 29,
-        GGML_OP_TRANSPOSE = 30,
-        GGML_OP_GET_ROWS = 31,
-        GGML_OP_GET_ROWS_BACK = 32,
-        GGML_OP_DIAG = 33,
-        GGML_OP_DIAG_MASK_INF = 34,
-        GGML_OP_DIAG_MASK_ZERO = 35,
-        GGML_OP_SOFT_MAX = 36,
-        GGML_OP_SOFT_MAX_BACK = 37,
-        GGML_OP_ROPE = 38,
-        GGML_OP_ROPE_BACK = 39,
-        GGML_OP_ALIBI = 40,
-        GGML_OP_CLAMP = 41,
-        GGML_OP_CONV_1D = 42,
-        GGML_OP_CONV_2D = 43,
-        GGML_OP_POOL_1D = 44,
-        GGML_OP_POOL_2D = 45,
+        GGML_OP_SCALE = 33,
+        GGML_OP_SET = 34,
+        GGML_OP_CPY = 35,
+        GGML_OP_CONT = 36,
+        GGML_OP_RESHAPE = 37,
+        GGML_OP_VIEW = 38,
+        GGML_OP_PERMUTE = 39,
+        GGML_OP_TRANSPOSE = 40,
+        GGML_OP_GET_ROWS = 41,
+        GGML_OP_GET_ROWS_BACK = 42,
+        GGML_OP_DIAG = 43,
+        GGML_OP_DIAG_MASK_INF = 44,
+        GGML_OP_DIAG_MASK_ZERO = 45,
+        GGML_OP_SOFT_MAX = 46,
+        GGML_OP_SOFT_MAX_BACK = 47,
+        GGML_OP_ROPE = 48,
+        GGML_OP_ROPE_BACK = 49,
+        GGML_OP_ALIBI = 50,
+        GGML_OP_CLAMP = 51,
+        GGML_OP_CONV_1D = 52,
+        GGML_OP_CONV_2D = 53,
 
-        GGML_OP_FLASH_ATTN = 46,
-        GGML_OP_FLASH_FF = 47,
-        GGML_OP_FLASH_ATTN_BACK = 48,
-        GGML_OP_WIN_PART = 49,
-        GGML_OP_WIN_UNPART = 50,
+        GGML_OP_FLASH_ATTN = 54,
+        GGML_OP_FLASH_FF = 55,
+        GGML_OP_FLASH_ATTN_BACK = 56,
+        GGML_OP_WIN_PART = 57,
+        GGML_OP_WIN_UNPART = 58,
 
-        GGML_OP_UNARY = 51,
+        GGML_OP_MAP_UNARY = 59,
+        GGML_OP_MAP_BINARY = 60,
 
-        GGML_OP_MAP_UNARY = 52,
-        GGML_OP_MAP_BINARY = 53,
+        GGML_OP_MAP_CUSTOM1 = 61,
+        GGML_OP_MAP_CUSTOM2 = 62,
+        GGML_OP_MAP_CUSTOM3 = 63,
 
-        GGML_OP_MAP_CUSTOM1_F32 = 54,
-        GGML_OP_MAP_CUSTOM2_F32 = 55,
-        GGML_OP_MAP_CUSTOM3_F32 = 56,
+        GGML_OP_CROSS_ENTROPY_LOSS = 64,
+        GGML_OP_CROSS_ENTROPY_LOSS_BACK = 65,
 
-        GGML_OP_MAP_CUSTOM1 = 57,
-        GGML_OP_MAP_CUSTOM2 = 58,
-        GGML_OP_MAP_CUSTOM3 = 59,
-
-        GGML_OP_CROSS_ENTROPY_LOSS = 60,
-        GGML_OP_CROSS_ENTROPY_LOSS_BACK = 61,
-
-        GGML_OP_COUNT = 62;
-
-    /** enum ggml_unary_op */
-    public static final int
-        GGML_UNARY_OP_ABS = 0,
-        GGML_UNARY_OP_SGN = 1,
-        GGML_UNARY_OP_NEG = 2,
-        GGML_UNARY_OP_STEP = 3,
-        GGML_UNARY_OP_TANH = 4,
-        GGML_UNARY_OP_ELU = 5,
-        GGML_UNARY_OP_RELU = 6,
-        GGML_UNARY_OP_GELU = 7,
-        GGML_UNARY_OP_GELU_QUICK = 8,
-        GGML_UNARY_OP_SILU = 9;
-
-    /** enum ggml_object_type */
-    public static final int
-        GGML_OBJECT_TENSOR = 0,
-        GGML_OBJECT_GRAPH = 1,
-        GGML_OBJECT_WORK_BUFFER = 2;
+        GGML_OP_COUNT = 66;
 // Targeting ../ggml_object.java
 
 
@@ -436,17 +408,9 @@ public static final int GGML_EXIT_ABORTED = 1;
 // Targeting ../ggml_cplan.java
 
 
-
-    // next prime after GGML_MAX_NODES
-    // #define GGML_GRAPH_HASHTABLE_SIZE 4099
-    // next prime after GGML_MAX_NODES * 2 (nodes + leafs)
-    public static final int GGML_GRAPH_HASHTABLE_SIZE = 8273;
 // Targeting ../ggml_cgraph.java
 
 
-
-    @MemberGetter public static native @Cast("const size_t") long GGML_GRAPH_SIZE();
-    public static final long GGML_GRAPH_SIZE = GGML_GRAPH_SIZE();
 // Targeting ../ggml_scratch.java
 
 
@@ -493,7 +457,6 @@ public static final int GGML_EXIT_ABORTED = 1;
 
     public static native @Cast("const char*") BytePointer ggml_type_name(@Cast("ggml_type") int type);
     public static native @Cast("const char*") BytePointer ggml_op_name(@Cast("ggml_op") int op);
-    public static native @Cast("const char*") BytePointer ggml_op_symbol(@Cast("ggml_op") int op);
 
     public static native @Cast("size_t") long ggml_element_size(@Const ggml_tensor tensor);
 
@@ -506,8 +469,6 @@ public static final int GGML_EXIT_ABORTED = 1;
     public static native @Cast("bool") boolean ggml_is_contiguous(@Const ggml_tensor tensor);
     public static native @Cast("bool") boolean ggml_is_permuted(@Const ggml_tensor tensor);
 
-    public static native @Cast("bool") boolean ggml_are_same_shape(@Const ggml_tensor t0, @Const ggml_tensor t1);
-
     // use this to compute the memory overhead of a tensor
     public static native @Cast("size_t") long ggml_tensor_overhead();
 
@@ -519,7 +480,6 @@ public static final int GGML_EXIT_ABORTED = 1;
     public static native @Cast("size_t") long ggml_used_mem(@Const ggml_context ctx);
 
     public static native @Cast("size_t") long ggml_set_scratch(ggml_context ctx, @ByVal ggml_scratch scratch);
-    public static native @Cast("bool") boolean ggml_get_no_alloc(ggml_context ctx);
     public static native void ggml_set_no_alloc(ggml_context ctx, @Cast("bool") boolean no_alloc);
 
     public static native Pointer ggml_get_mem_buffer(@Const ggml_context ctx);
@@ -590,24 +550,17 @@ public static final int GGML_EXIT_ABORTED = 1;
     public static native Pointer ggml_get_data(@Const ggml_tensor tensor);
     public static native FloatPointer ggml_get_data_f32(@Const ggml_tensor tensor);
 
-    public static native @Cast("ggml_unary_op") int ggml_get_unary_op(@Const ggml_tensor tensor);
-
     public static native @Cast("const char*") BytePointer ggml_get_name(@Const ggml_tensor tensor);
-    public static native ggml_tensor ggml_set_name(      ggml_tensor tensor, @Cast("const char*") BytePointer name);
-    public static native ggml_tensor ggml_set_name(      ggml_tensor tensor, String name);
-    public static native ggml_tensor ggml_format_name(      ggml_tensor tensor, @Cast("const char*") BytePointer fmt);
-    public static native ggml_tensor ggml_format_name(      ggml_tensor tensor, String fmt);
+    public static native ggml_tensor ggml_set_name(ggml_tensor tensor, @Cast("const char*") BytePointer name);
+    public static native ggml_tensor ggml_set_name(ggml_tensor tensor, String name);
+    public static native ggml_tensor ggml_format_name(ggml_tensor tensor, @Cast("const char*") BytePointer fmt);
+    public static native ggml_tensor ggml_format_name(ggml_tensor tensor, String fmt);
 
     //
     // operations on tensors with backpropagation
     //
 
     public static native ggml_tensor ggml_dup(
-                ggml_context ctx,
-                ggml_tensor a);
-
-    // in-place, returns view(a)
-    public static native ggml_tensor ggml_dup_inplace(
                 ggml_context ctx,
                 ggml_tensor a);
 
@@ -835,17 +788,14 @@ public static final int GGML_EXIT_ABORTED = 1;
 
     public static native ggml_tensor ggml_rms_norm(
                 ggml_context ctx,
-                ggml_tensor a,
-                float eps);
+                ggml_tensor a);
 
     public static native ggml_tensor ggml_rms_norm_inplace(
                 ggml_context ctx,
-                ggml_tensor a,
-                float eps);
+                ggml_tensor a);
 
     // a - x
     // b - dy
-    // TODO: update with configurable eps
     public static native ggml_tensor ggml_rms_norm_back(
                 ggml_context ctx,
                 ggml_tensor a,
@@ -937,19 +887,8 @@ public static final int GGML_EXIT_ABORTED = 1;
                 ggml_tensor a,
                 ggml_tensor b);
 
-    // a -> b, in-place, return view(b)
-    public static native ggml_tensor ggml_cpy_inplace(
-                ggml_context ctx,
-                ggml_tensor a,
-                ggml_tensor b);
-
     // make contiguous
     public static native ggml_tensor ggml_cont(
-                ggml_context ctx,
-                ggml_tensor a);
-
-    // make contiguous, in-place
-    public static native ggml_tensor ggml_cont_inplace(
                 ggml_context ctx,
                 ggml_tensor a);
 
@@ -1121,28 +1060,6 @@ public static final int GGML_EXIT_ABORTED = 1;
                 int mode,
                 int n_ctx);
 
-    // custom RoPE
-    public static native ggml_tensor ggml_rope_custom(
-                ggml_context ctx,
-                ggml_tensor a,
-                int n_past,
-                int n_dims,
-                int mode,
-                int n_ctx,
-                float freq_base,
-                float freq_scale);
-
-    // in-place, returns view(a)
-    public static native ggml_tensor ggml_rope_custom_inplace(
-                ggml_context ctx,
-                ggml_tensor a,
-                int n_past,
-                int n_dims,
-                int mode,
-                int n_ctx,
-                float freq_base,
-                float freq_scale);
-
     // rotary position embedding backward, i.e compute dx from dy
     // a - dy
     public static native ggml_tensor ggml_rope_back(
@@ -1150,8 +1067,7 @@ public static final int GGML_EXIT_ABORTED = 1;
                 ggml_tensor a,
                 int n_past,
                 int n_dims,
-                int mode,
-                int n_ctx);
+                int mode);
 
     // alibi position embedding
     // in-place, returns view(a)
@@ -1198,31 +1114,6 @@ public static final int GGML_EXIT_ABORTED = 1;
                 int s,
                 int d);
 
-    /** enum ggml_op_pool */
-    public static final int
-        GGML_OP_POOL_MAX = 0,
-        GGML_OP_POOL_AVG = 1,
-        GGML_OP_POOL_COUNT = 2;
-
-    public static native ggml_tensor ggml_pool_1d(
-                ggml_context ctx,
-                ggml_tensor a,
-                @Cast("ggml_op_pool") int op,
-                int k0,
-                int s0,
-                int p0); // padding
-
-    public static native ggml_tensor ggml_pool_2d(
-                ggml_context ctx,
-                ggml_tensor a,
-                @Cast("ggml_op_pool") int op,
-                int k0,
-                int k1,
-                int s0,
-                int s1,
-                int p0,
-                int p1);
-
     public static native ggml_tensor ggml_flash_attn(
                 ggml_context ctx,
                 ggml_tensor q,
@@ -1265,16 +1156,6 @@ public static final int GGML_EXIT_ABORTED = 1;
                 int w0,
                 int h0,
                 int w);
-
-    public static native ggml_tensor ggml_unary(
-                ggml_context ctx,
-                 ggml_tensor a,
-                 @Cast("ggml_unary_op") int op);
-
-    public static native ggml_tensor ggml_unary_inplace(
-            ggml_context ctx,
-            ggml_tensor a,
-            @Cast("ggml_unary_op") int op);
 // Targeting ../ggml_unary_op_f32_t.java
 
 
@@ -1348,65 +1229,6 @@ public static final int GGML_EXIT_ABORTED = 1;
                 ggml_tensor b,
                 ggml_tensor c,
                        ggml_custom3_op_f32_t fun);
-// Targeting ../ggml_custom1_op_t.java
-
-
-// Targeting ../ggml_custom2_op_t.java
-
-
-// Targeting ../ggml_custom3_op_t.java
-
-
-
-    public static final int GGML_N_TASKS_MAX = -1;
-
-    public static native ggml_tensor ggml_map_custom1(
-                ggml_context ctx,
-                ggml_tensor a,
-                ggml_custom1_op_t fun,
-                int n_tasks,
-                Pointer userdata);
-
-    public static native ggml_tensor ggml_map_custom1_inplace(
-                ggml_context ctx,
-                ggml_tensor a,
-                ggml_custom1_op_t fun,
-                int n_tasks,
-                Pointer userdata);
-
-    public static native ggml_tensor ggml_map_custom2(
-                ggml_context ctx,
-                ggml_tensor a,
-                ggml_tensor b,
-                ggml_custom2_op_t fun,
-                int n_tasks,
-                Pointer userdata);
-
-    public static native ggml_tensor ggml_map_custom2_inplace(
-                ggml_context ctx,
-                ggml_tensor a,
-                ggml_tensor b,
-                ggml_custom2_op_t fun,
-                int n_tasks,
-                Pointer userdata);
-
-    public static native ggml_tensor ggml_map_custom3(
-                ggml_context ctx,
-                ggml_tensor a,
-                ggml_tensor b,
-                ggml_tensor c,
-                ggml_custom3_op_t fun,
-                int n_tasks,
-                Pointer userdata);
-
-    public static native ggml_tensor ggml_map_custom3_inplace(
-                ggml_context ctx,
-                ggml_tensor a,
-                ggml_tensor b,
-                ggml_tensor c,
-                ggml_custom3_op_t fun,
-                int n_tasks,
-                Pointer userdata);
 
     // loss function
 
@@ -1429,16 +1251,10 @@ public static final int GGML_EXIT_ABORTED = 1;
                 ggml_context ctx,
                 ggml_tensor tensor);
 
-
     public static native void ggml_build_forward_expand(ggml_cgraph cgraph, ggml_tensor tensor);
 
     public static native @ByVal ggml_cgraph ggml_build_forward(ggml_tensor tensor);
     public static native @ByVal ggml_cgraph ggml_build_backward(ggml_context ctx, ggml_cgraph gf, @Cast("bool") boolean keep);
-
-    // graph allocation in a context
-    public static native ggml_cgraph ggml_new_graph(ggml_context ctx);
-    public static native ggml_cgraph ggml_build_forward_ctx(ggml_context ctx, ggml_tensor tensor);
-    public static native @Cast("size_t") long ggml_graph_overhead();
 
     // ggml_graph_plan() has to be called before ggml_graph_compute()
     // when plan.work_size > 0, caller must allocate memory for plan.work_data
@@ -1624,13 +1440,6 @@ public static final int GGML_EXIT_ABORTED = 1;
 // #else
 public static final int QK_K = 256;
 public static final int K_SCALE_SIZE = 12;
-// #endif
-
-// #ifndef static_assert
-// #if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201100L)
-// #define static_assert(cond, msg) _Static_assert(cond, msg)
-// #else
-// #define static_assert(cond, msg) struct global_scope_noop_trick
 // Targeting ../block_q2_K.java
 
 

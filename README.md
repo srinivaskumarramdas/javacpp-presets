@@ -4,7 +4,7 @@
 ### Build Instructions
 In the project root, run the following commands to build and install related Jars to your local machine:
 ```shell
-mvn clean install --projects ..llamacpp
+mvn clean install --projects .,llamacpp
 mvn clean install -f platform --projects ../llamacpp/platform -Djavacpp.platform.host
 ```
 Then, in order to use LLaMA APIs in your project, you should add the following dependencies in your `pom.xml`:
