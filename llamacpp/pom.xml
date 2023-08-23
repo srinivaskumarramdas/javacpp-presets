@@ -15,7 +15,7 @@
 
     <properties>
         <javacpp.moduleId>llamacpp</javacpp.moduleId>
-        <javacpp.moduleVersion>master-4e7464e</javacpp.moduleVersion>
+        <javacpp.moduleVersion>master-8207214</javacpp.moduleVersion>
     </properties>
 
     <dependencies>

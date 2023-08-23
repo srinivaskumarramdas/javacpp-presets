@@ -9,7 +9,7 @@ import org.bytedeco.javacpp.tools.InfoMapper;
 
 @Properties(
         value = {
-                @Platform(include = {"ggml.h", "llama-util.h",  "llama.h"}, link = "llama@.1#")
+                @Platform(include = {"ggml.h", "llama.h"}, link = "llama@.1#")
         },
         target = "org.javallm.llamacpp",
         global = "org.javallm.llamacpp.global.llama"
@@ -38,7 +38,7 @@ public class llama implements InfoMapper {
                 .put(new Info("defined(GGML_USE_CUBLAS)").define(false))
                 .put(new Info("GGML_USE_CLBLAS").define(false))
                 .put(new Info("defined(GGML_USE_CLBLAS)").define(false))
-                .put(new Info("GGML_USE_METAL").define(false))
-                .put(new Info("defined(GGML_USE_METAL)").define(false));
+                .put(new Info("GGML_USE_METAL").define(true))
+                .put(new Info("defined(GGML_USE_METAL)").define(true));
     }
 }

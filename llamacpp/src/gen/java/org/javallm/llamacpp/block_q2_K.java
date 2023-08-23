@@ -9,6 +9,7 @@ import org.bytedeco.javacpp.annotation.*;
 import static org.javallm.llamacpp.global.ggml.*;
 
 // #endif
+// #endif
 
 //
 // Super-block quantization structures

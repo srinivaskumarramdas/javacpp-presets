@@ -28,8 +28,11 @@ public class ggml implements InfoMapper {
         infoMap
                 .put(new Info("DEPRECATED").skip())
                 .put(new Info("__ARM_NEON").define(false))
+                .put(new Info("defined(__ARM_NEON)").define(false))
                 .put(new Info("GGML_SHARED").define(false))
                 .put(new Info("GGML_USE_K_QUANTS").define(true))
-                .put(new Info("GGML_QKK_64").define(false));
+                .put(new Info("GGML_QKK_64").define(false))
+                .put(new Info("GGML_CUDA_F16").define(false))
+                .put(new Info("defined(__ARM_NEON) && defined(__CUDACC__)").define(false));
     }
 }

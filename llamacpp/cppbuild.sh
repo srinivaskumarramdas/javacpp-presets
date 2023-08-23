@@ -16,16 +16,17 @@ INSTALL_PATH=`pwd`
 mkdir -p include lib bin
 
 # fetch llama.cpp source code
-echo "Downloading files from LLaMA.cpp..."
-download https://github.com/ggerganov/llama.cpp/archive/refs/tags/$VERSION.zip llama.cpp-$VERSION.zip
-echo "Decompressing archives..."
+#echo "Downloading files from LLaMA.cpp..."
+#download https://github.com/ggerganov/llama.cpp/archive/refs/tags/$VERSION.zip llama.cpp-$VERSION.zip
+#echo "Decompressing archives..."
+#
+#if [ -d "llama.cpp-$VERSION" ]; then
+#  echo "Zip file exist, skipped..."
+#else
+#  unzip llama.cpp-$VERSION.zip
+#fi
 
-if [ -d "llama.cpp-$VERSION" ]; then
-  echo "Zip file exist, skipped..."
-else
-  unzip llama.cpp-$VERSION.zip
-fi
-
+cp -r ~/Downloads/llama.cpp-master-8207214 .
 cd llama.cpp-$VERSION
 
 # build library
@@ -42,7 +43,3 @@ cp ggml.h llama.h ../include
 # k_quants.h cannot be properly handled, disable this feature temporally
 sed 's/ restrict / /g' k_quants.h > k_quants-modified.h
 cp k_quants-modified.h ../include/k_quants.h
-
-# JavaCPP could not handle `constexpr` keyword, replace it with `const`
-sed 's/ constexpr / const /g' llama-util.h > llama-util-modified.h
-cp llama-util-modified.h ../include/llama-util.h
